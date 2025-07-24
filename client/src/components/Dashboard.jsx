@@ -105,7 +105,7 @@ const Dashboard = () => {
               {/* Calories */}
               <div className="mb-4">
                 <div className="flex justify-between text-sm font-medium text-gray-400 mb-1">
-                  <span>🔥 Calories Burned</span>
+                  <span>Calories</span>
                   <span>1500/2000</span>
                 </div>
                 <div className="w-full bg-gray-800 h-2 rounded-full">

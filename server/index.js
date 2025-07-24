@@ -138,7 +138,7 @@ app.post("/submit-biodata", async (req, res) => {
       },
       {
         headers: {
-          Authorization: `Bearer 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`, // 🔁 Replace this with your real OpenRouter key
+          Authorization: `Bearer ${API_TOKEN}`, // 🔁 Replace this with your real OpenRouter key
           "Content-Type": "application/json",
           "HTTP-Referer": "http://localhost:5173", // ✅ required by OpenRouter
           "X-Title": "biodata-fitness-app",        // ✅ required by OpenRouter
@@ -240,7 +240,7 @@ app.post("/chat/send", async (req, res) => {
       },
       {
         headers: {
-          Authorization: `Bearer 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`,
+          Authorization: `Bearer ${API_TOKEN}`,
           "Content-Type": "application/json",
           "HTTP-Referer": "http://localhost:5173",
           "X-Title": "chat-app",

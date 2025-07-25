@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const FitnessSchema = new mongoose.Schema({
+  user: {
+    type : mongoose.Schema.Types.ObjectId,
+    ref:'user'
+  },
   name: String,
   age: Number,
   gender: String,

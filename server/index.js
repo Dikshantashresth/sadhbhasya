@@ -12,7 +12,7 @@ const { Server } = require("socket.io");
 const FitnessModel = require("./models/FItness");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const axios = require("axios");
-const UserBio = require("./models/meals")
+const UserBio = require("./models/meals");
 
 require("dotenv").config();
 
@@ -124,7 +124,7 @@ app.post("/submit-biodata", async (req, res) => {
   const userBio = req.body;
 
   const { userId } = userBio;
-console.log(userBio)
+  console.log(userBio);
   if (!userId) {
     return res.status(400).json({ error: "User ID is required" });
   }
@@ -208,21 +208,22 @@ Make sure to only return valid JSON. Do not include explanations or any text out
   }
 });
 
-
 app.get("/api/fitness-plan/:userId", async (req, res) => {
   const { userId } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(userId)) {
-    return res.status(400).json({ error: 'Invalid user ID format' });
+    return res.status(400).json({ error: "Invalid user ID format" });
   }
 
   try {
-    const userObjectId =new  mongoose.Types.ObjectId(userId);
+    const userObjectId = new mongoose.Types.ObjectId(userId);
 
     const fitnessPlanDoc = await FitnessModel.findOne({ user: userObjectId });
 
     if (!fitnessPlanDoc) {
-      return res.status(404).json({ error: "Fitness plan not found for this user." });
+      return res
+        .status(404)
+        .json({ error: "Fitness plan not found for this user." });
     }
 
     return res.json({
@@ -236,9 +237,6 @@ app.get("/api/fitness-plan/:userId", async (req, res) => {
   }
 });
 
-
-
-
 app.get("/search/:userId", async (req, res) => {
   const { userId } = req.params;
 
@@ -251,35 +249,36 @@ app.get("/search/:userId", async (req, res) => {
       return res.status(404).json({ exists: false });
     }
   } catch (err) {
-    return res.status(500).json({ error: "Server error", details: err.message });
+    return res
+      .status(500)
+      .json({ error: "Server error", details: err.message });
   }
 });
-app.get('/getPlan/:userId',async(req,res)=>{
-
-});
-app.post('/update-user', async (req, res) => {
+app.get("/getPlan/:userId", async (req, res) => {});
+app.post("/update-user", async (req, res) => {
   const { userId, newUsername } = req.body;
 
   if (!userId || !newUsername) {
-    return res.status(400).json({ success: false, message: 'Missing data' });
+    return res.status(400).json({ success: false, message: "Missing data" });
   }
 
   try {
     const user = await userModel.findById(userId);
     if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found' });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
     }
 
     user.username = newUsername;
     await user.save();
 
-    res.json({ success: true, message: 'Username updated successfully' });
+    res.json({ success: true, message: "Username updated successfully" });
   } catch (err) {
-    console.error('Error updating username:', err);
-    res.status(500).json({ success: false, message: 'Internal server error' });
+    console.error("Error updating username:", err);
+    res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
-
 
 app.get("/", (req, res) => {
   console.log("working");
@@ -327,20 +326,24 @@ app.post("/chat/send", async (req, res) => {
   switch (botType) {
     case "therapist":
       systemPrompt =
-        "You are a compassionate therapist. Help the user with emotional support, self-awareness, and mental clarity.";
+        "You are a **compassionate and insightful therapist**, dedicated to fostering emotional well-being. Your purpose is to provide **unwavering emotional support**, guide users toward **profound self-awareness**, and help them achieve **unshakeable mental clarity**. Offer empathetic listening, insightful questions, and practical strategies to navigate challenges, cultivate resilience, and promote personal growth. Encourage self-reflection and empower users to discover their inner strength. Make sure to add warning that ai might be wrong";
       break;
     case "fitness":
       systemPrompt =
-        "You are a motivational fitness coach. Give advice on workouts, health, and lifestyle.";
+        "You are a **dynamic and highly motivational fitness coach**, committed to transforming lives through health and movement. Your mission is to **inspire and guide users** on their fitness journey. Provide **expert advice on effective workouts**, **holistic health practices**, and **sustainable lifestyle changes**. Encourage consistency, celebrate progress, and empower users to push their limits safely, achieve their fitness goals, and embrace a vibrant, active life.Make sure to add warning that ai might be wrong";
       break;
     case "MedicalExpert":
-      systemPrompt = "You are a medical expert";
+      systemPrompt =
+        "You are a **highly knowledgeable and reliable medical expert**. Your role is to provide **accurate, evidence-based information** and **general medical guidance**. Offer clear, concise explanations of health conditions, symptoms, and treatments. While you provide valuable insights, always emphasize the importance of consulting with qualified healthcare professionals for diagnosis and personalized medical advice. Your primary goal is to inform and educate, promoting better health understanding.Make sure to add warning that ai might be wrong";
       break;
     case "Dietician":
-      systemPrompt = "You are a medical ";
+      systemPrompt =
+        "You are a **dedicated and experienced dietician**, specializing in personalized nutrition and healthy eating. Your aim is to provide **practical, scientifically-backed advice** on balanced diets, nutritional needs, and mindful eating habits. Help users understand the impact of food on their well-being, suggest tailored meal plans, and offer strategies for achieving dietary goals, managing specific conditions, and fostering a positive relationship with food. Encourage sustainable changes for long-term health. Make sure to add warning that ai might be wrong";
       break;
     default:
-      systemPrompt = "You are a helpful AI assistant.";
+      systemPrompt =
+        "You are a **helpful, versatile, and highly informative AI assistant**. Your purpose is to provide clear, concise, and accurate information on a wide range of topics. You can answer questions, offer suggestions, explain concepts, and assist with various tasks, always aiming to be as useful and engaging as possible. Your goal is to simplify complex information and empower users with knowledge. Make sure to add warning that ai might be wrong";
+      break;
   }
 
   try {
@@ -395,7 +398,6 @@ Example:
   "fats": 10
 }
 `;
-
 
     const response = await axios.post(
       "https://openrouter.ai/api/v1/chat/completions",
@@ -473,7 +475,10 @@ Return only the advice without extra commentary.
     // Return AI suggestions
     res.json({ success: true, suggestions: aiMessage });
   } catch (error) {
-    console.error("Error fetching health tips:", error?.response?.data || error.message);
+    console.error(
+      "Error fetching health tips:",
+      error?.response?.data || error.message
+    );
     res.status(500).json({ error: "Failed to fetch health tips" });
   }
 });

@@ -1,7 +1,7 @@
 // src/pages/HomePage.jsx
 import React from "react";
 import Navbar from "../components/NavBar";
-
+import { Link } from "react-router-dom";
 const HomePage = () => {
   return (
     <div className="min-h-screen bg-[#0d1117] text-white">
@@ -20,9 +20,10 @@ const HomePage = () => {
             <br />
             🧠 From checking your sleep routines and identifying unhealthy patterns to helping you set and achieve your daily goals, our intelligent system works like a personal wellness coach.
           </p>
+          <Link to='/login'>
           <button className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">
             Try Chat Assistant
-          </button>
+          </button></Link>
         </div>
         <div className="md:w-1/2">
           <img
